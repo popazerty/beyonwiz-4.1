@@ -56,8 +56,8 @@ def profile(id):
 					f = open("/proc/progress", "w")
 					f.write("%d" % perc)
 				elif getBoxType() in ('amiko8900', 'sognorevolution', 'arguspingulux', 'arguspinguluxmini', 'sparkreloaded', 'sabsolo', 'sparklx', 'gis8120'):
-+					f = open("/proc/vfd", "w")
-+					f.write("%d \n" % perc)
+ 					f = open("/proc/vfd", "w")
+ 					f.write("%d \n" % perc)
 				else:
 					f = open("/proc/progress", "w")
 					f.write("%d \n" % perc)
