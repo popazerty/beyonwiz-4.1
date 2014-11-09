@@ -78,6 +78,7 @@ AM_CONDITIONAL(CUBE, test "$BOXTYPE" == "cube")
 AM_CONDITIONAL(DAGS1, test "$BOXTYPE" == "dags1")
 AM_CONDITIONAL(DAGS2, test "$BOXTYPE" == "dags2")
 AM_CONDITIONAL(DAGS3, test "$BOXTYPE" == "dags3")
+AM_CONDITIONAL(SPARK, test `echo "$BOXTYPE" | cut -b 1-5` == "spark")
 AM_CONDITIONAL(DM500HD, test "$BOXTYPE" == "dm500hd")
 AM_CONDITIONAL(DM500HDV2, test "$BOXTYPE" == "dm500hdv2")
 AM_CONDITIONAL(DM800, test "$BOXTYPE" == "dm800")
@@ -127,6 +128,17 @@ if test `echo "$BOXTYPE" | cut -b 1-2` == "dm"; then
 	AC_DEFINE(DREAMBOX, 1, [Dreambox hardware])
 	AC_DEFINE(KEY_PLAY_ACTUALLY_IS_KEY_PLAYPAUSE, 1,[define when rc sends a KEY_PLAY event for its KEY_PLAYPAUSE key])
 fi
+
+
+AC_ARG_ENABLE([sh],
+	[AS_HELP_STRING(--enable-sh,    enable sh patches)],
+	[case "${enableval}" in
+		yes) enable_sh=true ;;
+		no) enable_sh=false ;;
+		*) AC_MSG_ERROR([bad value ${enableval} for --enable-sh]) ;;
+	esac])
+AM_CONDITIONAL([ENABLE_SH], [test x$enable_sh = xtrue])
+
 
 AC_ARG_WITH(nolcd,
 	AS_HELP_STRING([--with-nolcd], [disable ascii based lcd, yes or no]),
@@ -300,6 +312,9 @@ if test "$BOXTYPE" == "sogno8800hd"; then
 	AC_DEFINE(KEY_MEDIA_TO_KEY_BOOKMARKS, 1,[define when rc sends a KEY_MEDIA event for its KEY_BOOKMARKS key])
 fi
 
+if test "$BOXTYPE" == "spark" -o "$BOXTYPE" == "spark7162"; then
+ 	AC_DEFINE(FORCE_ADVANCED_REMOTE, 1,[define to fixup the input device identification when the remote control is actually an 'advanced' remote (with play/forward/rewind keys)])
+fi
 
 AC_ARG_WITH(libsdl,
 	AS_HELP_STRING([--with-libsdl],[use libsdl, yes or no]),
